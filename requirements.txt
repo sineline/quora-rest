@@ -1,0 +1,8 @@
+requests            # Request any Server
+pylint
+Django>=2.0,<3.0    # Django Framework
+psycopg2>=2.7,<3.0  # Connection DB??
+djangorestframework # Rest Framework
+pillow
+django-rest-auth    # Authentification
+django-allauth      # Authentification
