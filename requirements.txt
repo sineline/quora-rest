@@ -6,3 +6,4 @@ djangorestframework # Rest Framework
 pillow
 django-rest-auth    # Authentification
 django-allauth      # Authentification
+django-cors-headers # Able Communication server

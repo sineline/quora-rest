@@ -2,6 +2,7 @@ version: '3'
 
 services:
   db:
+    container_name: db-quora
     image: postgres
     restart: always
     environment:
@@ -10,6 +11,7 @@ services:
       POSTGRES_DB: quora
 
   adminer:
+    container_name: adminer-quora
     image: 'adminer'
     restart: always
     ports:
@@ -17,12 +19,33 @@ services:
     depends_on:
       - db
 
-  web:
-    build: .
+  api-quora:
+    container_name: api-quora
+    build:
+      context: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/client-app/
     ports:
       - "8000:8000"
     depends_on:
       - db
+
+  client-quora:
+    container_name: client-vue
+    build:
+      context: .
+      dockerfile: vue.Dockerfile
+    working_dir: /app/
+    command: >
+      sh -c "cd vue-app && npm run serve"
+    volumes:
+      - ./client-app:/app
+    ports:
+      - "8010:8080"
+    depends_on:
+      - api-quora
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  #docker-compose run client-quora vue create vue-app --default
