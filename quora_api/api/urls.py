@@ -4,19 +4,17 @@ from rest_framework.authtoken import views
 #from snippets import views
 from django.urls import path, include
 from rest_framework import routers
-from quora_api.api.views import (UserList,
-                                 UserCreate,
-                                 UserDetail)
+from quora_api.api.views import (
+    UserList,
+    UserCreate,
+    UserDetail,
+    QuestionViewSet,
+    AnswerViewSet
+)
 
-# from tutorial.quickstart import views
-
-# router = routers.DefaultRouter()
-# router.register(r'users', views.UserViewSet)
-
-# Create a router and register our viewsets with it.
-#router = routers.DefaultRouter()
-#router.register(r'snippets', views.SnippetViewSet)
-#router.register(r'users', views.UserViewSet)
+router = routers.DefaultRouter()
+router.register('questions', QuestionViewSet)
+router.register('answers', AnswerViewSet)
 
 urlpatterns = [
     path('users/add/', UserCreate.as_view()),
@@ -25,3 +23,4 @@ urlpatterns = [
     path('token-auth/', views.obtain_auth_token),
 ] 
 
+urlpatterns += router.urls

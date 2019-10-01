@@ -40,7 +40,7 @@ export default {
 	},
 	methods: {
 		callLoginApi() {
-			const post_date = { 
+			const post_data = { 
 				username: this.username,
 				password: this.password_val
 			}
@@ -51,7 +51,7 @@ export default {
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify(post_date)
+				body: JSON.stringify(post_data)
 			})
 			.then(response =>response.json())
 			.then((data) => {
