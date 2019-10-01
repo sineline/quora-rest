@@ -1,19 +1,22 @@
-from quora_api.api.serializer import UserSerializer
+from quora_api.api.serializer import (
+    UserListSerializer,
+    UserCreateSerializer
+)
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework.settings import api_settings
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserListSerializer
     #permission_classes = api_settings.
 
 class UserCreate(generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserCreateSerializer
     #permission_classes = api_settings.
 
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserCreateSerializer

@@ -1,7 +1,7 @@
 <template>
   	<div class="hello">
-		<h1>{{ msg }}</h1>
-		<p>Share your knowledge!</p>
+		<img alt="Vue logo" src="../assets/logo.png">
+		<h1>Share your knowledge!</h1>
 		
 		<form v-on:submit.prevent>
 			<label for="username-input">Username</label>
@@ -10,7 +10,7 @@
 			<label for="password-input">Password</label>
 			<input type="password" name="password" id="password-input" v-model="password_val" autocomplete="current-password">
 			<p><button v-on:click="callLoginApi()">Login</button></p>
-			<p>Or <a>Create a new account</a></p>
+			<p>Or <router-link to='/register'>Create a new account</router-link></p>
 		</form>
 
   	</div>
@@ -30,16 +30,16 @@ export default {
 		msg: String,
   	},
   	mounted() {
-		fetch("https://jsonplaceholder.typicode.com/users")
-			.then(response => response.json())
-			.then((data) => {
-				this.users = data;
-			})
+		// fetch("https://jsonplaceholder.typicode.com/users")
+		// 	.then(response => response.json())
+		// 	.then((data) => {
+		// 		this.users = data;
+		// 	})
+		if(localStorage.token) 
+			this.token = localStorage.token;
 	},
 	methods: {
 		callLoginApi() {
-			console.debug(this.username);
-			
 			const post_date = { 
 				username: this.username,
 				password: this.password_val
@@ -58,6 +58,8 @@ export default {
 				//this.posts = data;
 				console.debug(data.token);
 				this.token = data.token;
+				localStorage.token = this.token;
+				this.$router.push({ name: 'home'});
 			});
 		},
 	},

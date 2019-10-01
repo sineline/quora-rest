@@ -35,17 +35,36 @@ class UserCreateTests(APITestCase):
         # Test API
         self.assertFalse(self.client.login(username=username, password=param.get(password)))
         
-    def testAuthSuccessReal(self):
+    def testAuthSuccess(self):
         param = {
             'username':"root",
-            'password':"antoto",
+            'password':"root",
         }
 
         # True API
         result = requests.post(url=self.url_auth, data=param)
-        #token = result.json()['token']
+        #self.true_token = result.json()['token']
         self.assertTrue(status.is_success(result.status_code))
         
         # Test API
         self.assertTrue(self.client.login(username='admin', password='admin123456'))
+
+    def testCallUserAPI(self):
+        url_api_user = self.base_url + "/api/users/"
+
+        param = {
+            'username':"root",
+            'password':"root",
+        }
+
+        # True API
+        result = requests.post(url=self.url_auth, data=param)
+        true_token = result.json()['token']
+
+        # True API
+        result = requests.get(url_api_user, headers={'Authorization': 'Token '+true_token})
+        self.assertTrue(status.is_success(result.status_code))
+        
+        # Test API
+        #self.assertTrue(self.client.login(username='admin', password='admin123456'))
         
