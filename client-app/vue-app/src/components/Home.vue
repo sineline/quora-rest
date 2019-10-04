@@ -1,21 +1,13 @@
 <template>
 	<main>
-		<header>
-			<div class="container-main container-header">
-				<h3 class="title-site">Question Time</h3>
-				<div class="container-button">
-					<router-link class="btn btn-success" to='/'>Home</router-link>
-					<router-link class="btn btn-danger" to='/ask-question'>Ask a question</router-link>
-					<button class="btn btn-light" v-on:click="logout()">Logout</button>
-				</div>
-			</div>
-		</header>
 		<div class="container-main">
 			<ul>
 				<Question 
 					v-for="question in questions"
 					v-bind:key="question.id"
 					v-bind:question="question"/>
+
+				<button  v-if="next_page" class="btn-load_more btn btn-success" v-on:click="load_more()">Load More</button>
 			</ul>
 		</div>
 	</main>
@@ -25,13 +17,16 @@
 	import Question from './Question.vue'
 
 	export default {
+		name: 'Home',
 		components: {
 			Question
 		},
-		name: 'Home',
 		data: function () {
 			return {
-				questions : []
+				questions : [],
+				next_page: "",
+				count_question: 0,
+				more_question: true
 			}
 		},
 		mounted() {
@@ -41,64 +36,45 @@
 				return;
 			}
 
-			fetch("http://localhost:8000/api/questions/", {
-				method: 'GET',
-				headers: {
-					'Authorization': 'Token '+localStorage.token
-				},
-			})
-			.then(response =>response.json())
-			.then((data) => {
-				//this.posts = data;
-				//console.debug(response);
-				console.debug(data);
-				this.questions = data;
-			});
+			if(!this.questions.length)
+				this.call_api("http://localhost:8000/api/questions/");
 		}, 
 		props: {
 		},
 		methods: {
+			call_api(url_api){
+				fetch(url_api, {
+					method: 'GET',
+					headers: {
+						'Authorization': 'Token '+localStorage.token
+					},
+				})
+				.then(response => response.json())
+				.then((data) => {
+					console.debug(data);
+					this.questions = !this.questions.length ? data.results : this.questions.concat(data.results);
+					this.count_question = data.count;
+					this.next_page = data.next;
+				});
+			},
 			logout() {
 				localStorage.token = null;
 				this.$router.push({ name: 'login'});
-			}
+			},
+			load_more() {
+				this.call_api(this.next_page);
+        	}
 		},
 	}
 </script>
 
-<style>
-	#app {
-		margin-top: 0px;
-	}
-</style>
 <style scoped>
-	header{
-		background: #f6f6f6;
-		width: 100vw;
-		padding: 10px;
-	}
-	.container-main{
-		width: 80vw;
-		margin:auto;
-	}
 	.container-main ul{
 		padding:0;
 		margin:0;
+		text-align: left;
 	}
-	.container-header{
-		display: inline-grid;
-		grid-template-columns: auto auto; 
+	.btn-load_more{
+		margin: 15px;
 	}
-	header .title-site{
-		justify-self: start;
-		align-self: center;
-		font-family: serif;
-	}
-	header .container-button{
-		justify-self: end;
-	}
-	header .container-button .btn{
-		margin: 0 2px;
-	}
-	
 </style>

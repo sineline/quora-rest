@@ -1,45 +1,63 @@
 <template>
-	<main>
-        <li class="question">
-            <p class="author">Posted by <span>{{ question.author }}</span></p>
-            <p class="title">{{ question.title }}</p>
+    <div class="question">
+        <router-link :to="link_question">
+            <p class="author">Posted by <span>{{ question.author_name }}</span></p>
+            <h2 class="title">{{ question.title }}</h2>
             <p class="answer">Answers: {{ question.answer.length }}</p>
-        </li>
-  	</main>
+        </router-link>
+    </div>
 </template>
 
 <script>
-export default {
-	name: 'Question',
-	data: function () {
-        return {
-            //questions : []
-        }
-	}, 
-  	props: {
-        question : Object,
-  	},
-  	mounted() {
-		
-	},
-	methods: {
-		
-	},
-}
-</script>
+    import QuestionLinkMixin from '../mixin/QuestionLink.vue';
 
-<style scoped>
+    export default {
+        name: 'Question',
+        mixins: [QuestionLinkMixin],
+        data: function () {
+            return {
+                link_question: {}
+            }
+        }, 
+        props: {
+            question : Object,
+        },
+        mounted() {
+            this.link_question = this.createLinkQuestion(this.question);
+        },
+        methods: {
+            
+        },
+    }
+</script>
+<style>
 	.question{
         list-style-type: none;
         text-align: left;
+        padding: 10px 0;
+        border-bottom: 1px solid #dfdfdf;
+        font-family: initial;
+        cursor: pointer;
     }
-    .author{
-        
+    .question p{
+        padding: 0;
+        margin: 0;
+        color: #555;
+        font-weight: bold;
+    }
+    .author span{
+        color: #ff4c4c;
     }
     .title{
-        
+        color: #1c1c1c;
+        font-weight: bold;
     }
-    .answer{
-        
+    
+</style>
+
+<style scoped>
+    a:hover {
+        color: auto;
+        text-decoration: none;
     }
 </style>

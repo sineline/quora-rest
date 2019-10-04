@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 
 class Question(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=130)
+    title = models.CharField(unique=True, max_length=130)
+    url_title = models.CharField(unique=True, max_length=130)
     created = models.DateField(auto_now_add=True)
 
     def __str__(self):

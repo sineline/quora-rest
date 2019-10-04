@@ -1,6 +1,6 @@
 <style>
   #app {
-      font-family: 'Avenir', Helvetica, Arial, sans-serif;
+	  font-family: serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-align: center;
@@ -13,13 +13,34 @@
 </style>
 <template>
   <div id="app">
-    <router-view />
+    <Header v-if="is_loggued" @setIsLoggued="setIsLoggued"/>
+    <router-view @setIsLoggued="setIsLoggued"/>
   </div>
 </template>
 
 <script>
-export default {
-}
+	import Header from './components/Header.vue';
+	  
+  	export default {
+      	name: 'App',
+		components: {
+			Header
+		},
+		data: function () {
+			return {
+				is_loggued : (localStorage.token && localStorage.token != "false") ? true : false,
+			}
+		},
+		mounted() {
+
+		},
+		methods: {
+			setIsLoggued (value) {
+				console.log("set_is_loggued:"+value);
+				this.is_loggued = value;
+			}
+		}
+  }
 </script>
 
 

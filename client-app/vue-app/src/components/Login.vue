@@ -23,20 +23,13 @@ export default {
 		return {
 			username: '',
 			password_val: '',
-			token: ''
 		}
 	},  
   	props: {
 		msg: String,
   	},
   	mounted() {
-		// fetch("https://jsonplaceholder.typicode.com/users")
-		// 	.then(response => response.json())
-		// 	.then((data) => {
-		// 		this.users = data;
-		// 	})
-		if(localStorage.token) 
-			this.token = localStorage.token;
+		
 	},
 	methods: {
 		callLoginApi() {
@@ -56,9 +49,12 @@ export default {
 			.then(response =>response.json())
 			.then((data) => {
 				//this.posts = data;
-				console.debug(data.token);
-				this.token = data.token;
-				localStorage.token = this.token;
+				//console.debug(data.token);
+
+				// We say to App that it is loggued to display header
+				localStorage.token = data.token;
+				this.$emit('setIsLoggued', true); 
+				
 				this.$router.push({ name: 'home'});
 			});
 		},

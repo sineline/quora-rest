@@ -37,11 +37,22 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     answer = AnswerSerializer(many=True, read_only=True)
-
-    author = serializers.SerializerMethodField()
-    def get_author(self, obj):
+    author_name = serializers.SerializerMethodField()
+    
+    def get_author_name(self, obj):
         return obj.author.username
+
+    # author = serializers.SerializerMethodField()
+    # def get_author(self, obj):
+    #     return obj.author.username
 
     class Meta:
         model = Question
-        fields = "__all__"
+        exclude = ('author',)
+        #fields = "__all__"
+
+class QuestionCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        exclude = ('author', 'url_title',)
+        #fields = "__all__"

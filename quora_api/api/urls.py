@@ -9,6 +9,7 @@ from quora_api.api.views import (
     UserCreate,
     UserDetail,
     QuestionViewSet,
+    QuestionDetail,
     AnswerViewSet
 )
 
@@ -21,6 +22,7 @@ urlpatterns = [
     path('users/', UserList.as_view()),
     path('users/<int:pk>/', UserDetail.as_view()),
     path('token-auth/', views.obtain_auth_token),
+    path('questions-title/<slug:url_title>/', QuestionDetail.as_view()),
 ] 
 
 urlpatterns += router.urls
