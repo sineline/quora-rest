@@ -9,6 +9,7 @@
 
 <script>
 	import QuestionLinkMixin from '../mixins/QuestionLink.vue';
+	import APIRequest from '../common/api_request'
 
 	export default {
 		name: 'AskQuestion',

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-
+	import APIRequest from '../common/api_request'
 	export default {
 		name: 'Register',
 		data: function () {
@@ -59,7 +59,8 @@
 				}
 
 				const url_api = "http://localhost:8000/api/users/add/";
-				const apiRequest = new APIRequest(url_api, 'POST', post_data).call_api().then((data) => {
+				const apiRequest = new APIRequest(url_api, 'POST', post_data);
+				apiRequest.call_api().then((data) => {
 					if(apiRequest.get_response_status() == 400)
 					{
 						this.error_api = "";

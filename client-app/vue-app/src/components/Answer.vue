@@ -25,6 +25,7 @@
 
 <script>
     import DateMixin from '../mixins/Date.vue';
+    import APIRequest from '../common/api_request'
 
     export default {
         name: 'Answer',
@@ -58,7 +59,8 @@
         methods: {
             delete_answer(){
                 const url_api = "http://localhost:8000/api/answers/"+this.answer_data.id+"/";
-                const apiRequest = new APIRequest(url_api, 'DELETE').call_api().then((data) => {
+                const apiRequest = new APIRequest(url_api, 'DELETE');
+                apiRequest.call_api().then((data) => {
                     if(apiRequest.get_response_status() != 401){
                         this.$emit('remove_answer', this.answer_data.id);
                     }
@@ -89,7 +91,8 @@
                     : "http://localhost:8000/api/likes/";
                 
                 const method = this.is_liked ? 'DELETE' : 'POST';
-                const apiRequest = new APIRequest(url_api, method).call_api().then((data) => {
+                const apiRequest = new APIRequest(url_api, method, post_data);
+                apiRequest.call_api().then((data) => {
                     if(apiRequest.get_response_status() == 201){
                         this.answer_data.like.push(data);
                         this.is_liked = data.id;

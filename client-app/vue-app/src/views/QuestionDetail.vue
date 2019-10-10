@@ -109,7 +109,8 @@
             },
             delete_question(){
                 const url_api = "http://localhost:8000/api/questions/"+this.question_data.id+"/";
-                const apiRequest = new APIRequest(url_api, 'DELETE').call_api().then((data) => {
+                const apiRequest = new APIRequest(url_api, 'DELETE');
+                apiRequest.call_api().then((data) => {
                     if(apiRequest.get_response_status() == 401){
                         this.error_api = data;
                         setTimeout(() => this.error_api = false, 5000);
