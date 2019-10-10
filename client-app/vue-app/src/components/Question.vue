@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import QuestionLinkMixin from '../mixin/QuestionLink.vue';
+    import QuestionLinkMixin from '../mixins/QuestionLink.vue';
 
     export default {
         name: 'Question',

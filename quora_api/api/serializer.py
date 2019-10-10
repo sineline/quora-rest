@@ -2,8 +2,10 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from quora_api.models import (
     Question,
-    Answer
+    Answer,
+    Like
 )
+import re
 
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,10 +32,23 @@ class UserCreateSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = "__all__"
+        read_only_fields = ['liker']
+
 class AnswerSerializer(serializers.ModelSerializer):
+    like = LikeSerializer(many=True, read_only=True)
+    author_name = serializers.SerializerMethodField()
+    
+    def get_author_name(self, obj):
+        return obj.author.username
+
     class Meta:
         model = Answer
         fields = "__all__"
+        read_only_fields = ['author']
 
 class QuestionSerializer(serializers.ModelSerializer):
     answer = AnswerSerializer(many=True, read_only=True)
@@ -48,11 +63,11 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        exclude = ('author',)
-        #fields = "__all__"
+        fields = "__all__"
+        read_only_fields = ['url_title', 'author']
 
-class QuestionCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Question
-        exclude = ('author', 'url_title',)
-        #fields = "__all__"
+    def create_url(self):
+        url_title = self.validated_data['title']
+        url_title = re.sub(r'[^\w\s]', '', url_title)
+        return url_title.strip().replace(" ", "-").lower()
+

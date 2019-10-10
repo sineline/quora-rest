@@ -57,30 +57,21 @@
 					email: this.email,
 					password: this.password
 				}
-				
-				//console.debug(this.data.username);
-				fetch("http://localhost:8000/api/users/add/", {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(post_date)
-				})
-				.then(response =>  response.json()
-					.then(data => {
-						console.debug(response);
-						if(response.status == 400)
-						{
-							this.error_api = "";
-							for (var key in data) {
-								this.error_api += "<p>About "+key+":"+data[key]+"</p>"
-							}
+
+				const url_api = "http://localhost:8000/api/users/add/";
+				const apiRequest = new APIRequest(url_api, 'POST', post_data).call_api().then((data) => {
+					if(apiRequest.get_response_status() == 400)
+					{
+						this.error_api = "";
+						for (var key in data) {
+							this.error_api += "<p>About "+key+":"+data[key]+"</p>"
 						}
-						else if(response.ok){
-							this.success = true;
-							setTimeout(() => this.$router.push({ name: 'login'}), 5000);
-						}
-					}));
+					}
+					else{
+						this.success = true;
+						setTimeout(() => this.$router.push({ name: 'login'}), 5000);
+					}
+				});
 			},
 		},
 	}

@@ -38,19 +38,8 @@ export default {
 				password: this.password_val
 			}
 			
-			//console.debug(this.data.username);
-			fetch("http://localhost:8000/api/token-auth/", {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(post_data)
-			})
-			.then(response =>response.json())
-			.then((data) => {
-				//this.posts = data;
-				//console.debug(data.token);
-
+			const url_api = "http://localhost:8000/api/token-auth/";
+			new APIRequest(url_api, 'POST', post_data).call_api().then((data) => {
 				// We say to App that it is loggued to display header
 				localStorage.token = data.token;
 				this.$emit('setIsLoggued', true); 

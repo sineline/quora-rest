@@ -4,7 +4,7 @@
             <router-link class="title-site" to='/'>Question Time</router-link>
             <div class="container-button">
                 <router-link class="btn btn-success" to='/'>Home</router-link>
-                <router-link class="btn btn-danger" to='/ask-question'>Ask a question</router-link>
+				<router-link class="btn btn-danger" :to="link_ask_question">Ask a question</router-link>
                 <button class="btn btn-light" v-on:click="logout()">Logout</button>
             </div>
         </div>
@@ -16,7 +16,10 @@
 		name: 'Header',
 		data: function () {
 			return {
-				
+				link_ask_question : {
+					name: 'action-question', 
+					params: {action_question: "ask"}
+				}
 			}
 		},
 		mounted() {

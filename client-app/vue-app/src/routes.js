@@ -1,14 +1,17 @@
-import Register from './components/Register.vue';
-import Login from './components/Login.vue';
-import Home from './components/Home.vue';
-import AskQuestion from './components/AskQuestion.vue';
-import QuestionDetail from './components/QuestionDetail.vue';
+import Register from './views/Register.vue';
+import Login from './views/Login.vue';
+import Home from './views/Home.vue';
+import AskQuestion from './views/AskQuestion.vue';
+import QuestionDetail from './views/QuestionDetail.vue';
+import AnswerEdit from './views/AnswerEdit.vue';
 
 const routes = [
     { name: 'home', path: '/', component: Home },
-    { name: 'ask-question', path: '/ask-question', component: AskQuestion },
+    //{ name: 'ask-question', path: '/ask-question', component: AskQuestion },
+    { name: 'action-question', path: '/question/:action_question', component: AskQuestion, props: true },
     { name: 'register', path: '/register', component: Register },
     { name: 'login', path: '/login', component: Login },
+    { name: 'answer-edit', path: '/answer/:id_answer', component: AnswerEdit, props: true},
     { name: 'question-detail', path: '/:question_title', component: QuestionDetail, props: true },
 ];
 

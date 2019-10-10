@@ -1,35 +1,36 @@
 <template>
     <main class="container-main">
-       <h1>Ask a Question</h1>
-	   <textarea rows="3" placeholder="What do you want to ask?" v-model="question"></textarea>
-	   <button class="btn-publish btn btn-success" v-on:click="publish()">Publish</button>
+	   <h1>Edit your Answer</h1>
+	   <textarea rows="3" placeholder="What do you want to ask?" v-model="answer.answer"></textarea>
+	   <button class="btn-publish btn btn-success" v-on:click="publish()">Publish your answer</button>
     </main>
 </template>
 
 <script>
-	import QuestionLinkMixin from '../mixin/QuestionLink.vue';
 
 	export default {
-		name: 'AskQuestion',
-		mixins: [QuestionLinkMixin],
+		name: 'AnswerEdit',
 		data: function () {
 			return {
-				question : ""
+				
 			}
 		},
-		mounted() {
+		created() {
 			
 		}, 
 		props: {
+			answer: Object
 		},
 		methods: {
 			publish(){
 				const post_data = { 
-					title: this.question,
+					answer: this.answer.answer,
+					question: this.answer.question
 				}
 
-				fetch("http://localhost:8000/api/questions/", {
-					method: 'POST',
+				const url_api = "http://localhost:8000/api/answers/"+this.answer.id+"/";
+				fetch(url_api, {
+					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json',
 						'Authorization': 'Token '+localStorage.token
@@ -39,11 +40,8 @@
 				.then(response => response.json())
 				.then((data) => {
 					console.debug(data);
-
-					this.$router.push(this.createLinkQuestion(data));
+					this.$router.go(-1);
 				});
-
-				
 			},
         },
 	}

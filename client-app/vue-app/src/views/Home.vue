@@ -14,7 +14,8 @@
 </template>
 
 <script>
-	import Question from './Question.vue'
+	import Question from '../components/Question';
+	import APIRequest from '../common/api_request'
 
 	export default {
 		name: 'Home',
@@ -43,15 +44,7 @@
 		},
 		methods: {
 			call_api(url_api){
-				fetch(url_api, {
-					method: 'GET',
-					headers: {
-						'Authorization': 'Token '+localStorage.token
-					},
-				})
-				.then(response => response.json())
-				.then((data) => {
-					console.debug(data);
+				new APIRequest(url_api).call_api().then((data) => {
 					this.questions = !this.questions.length ? data.results : this.questions.concat(data.results);
 					this.count_question = data.count;
 					this.next_page = data.next;
