@@ -24,8 +24,8 @@
 </template>
 
 <script>
-    import DateMixin from '../mixins/Date.vue';
-    import APIRequest from '../common/api_request'
+    import DateMixin from '@/mixins/Date.vue';
+    import APIRequest from '@/common/api_request'
 
     export default {
         name: 'Answer',
@@ -80,7 +80,7 @@
                     this.is_owner_answer = true;
                 }
             },
-            async like_answer(){
+            like_answer(){
 				const post_data = { 
                     answer: this.answer_props.id,
                     like: this.is_liked ? false : true,

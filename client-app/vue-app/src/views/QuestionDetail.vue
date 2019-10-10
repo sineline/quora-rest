@@ -17,7 +17,7 @@
                     <button class="btn btn-success" v-on:click="submit_answer()">Submit your answer</button>
                 </div>
             </div>
-            <p v-if="is_answered" class="text-success">You have written an answer!</p>
+            <p v-else class="text-success">You have written an answer!</p>
         </div>
         <Answer 
             v-for="answer in answer_data"
@@ -26,13 +26,15 @@
             v-bind:id_current_user="id_current_user"
             @set_is_answered="set_is_answered"
             @remove_answer="remove_answer"/>
+
+        <button  v-if="next_page" class="btn-load_more btn btn-success" v-on:click="load_more()">Load More</button>
     </div>  
 </template>
 
 <script>
-    import Answer from '../components/Answer';
-    import DateMixin from '../mixins/Date';
-    import APIRequest from '../common/api_request';
+    import Answer from '@/components/Answer';
+    import DateMixin from '@/mixins/Date';
+    import APIRequest from '@/common/api_request';
 
     export default {
         name: 'QuestionDetail',
@@ -44,8 +46,9 @@
             return {
                 answer_textarea : "",
                 created_date : "",
-                question_data : "",
-                answer_data : "",
+                question_data : {},
+                answer_data : [],
+                next_page: "",
                 error_api: "",
                 is_author: false,
                 is_answered: false,
@@ -64,6 +67,8 @@
             question : Object,
         },
         created() {
+            document.title = this.$route.params.question_title;
+
             if(this.question)
             {
                 this.question_data = this.question;
@@ -88,8 +93,7 @@
 				}
                 const url_api = "http://localhost:8000/api/answers/";
                 new APIRequest(url_api, 'POST', post_data).call_api().then((data) => {
-					this.answer_data.push(data);
-                    this.is_answered = true;
+                    this.answer_data.unshift(data);
                 });
             },
             set_is_answered(value) {
@@ -124,7 +128,9 @@
                 this.question_data.created_date = this.format_date_question(this.question_data.created)
                 this.link_ask_question.params.question_prop = this.question_data;
                 this.api_is_author();
-                this.answer_data = this.question_data.answer;
+                //this.answer_data = this.question_data.answer;
+                const url_api = "http://localhost:8000/api/questions/"+this.$route.params.question_title+"/answers/";
+                this.call_api_answer(url_api);
             },
             api_is_author(){
                 const url_api = "http://localhost:8000/api/users/me/";
@@ -134,7 +140,16 @@
 
                     this.id_current_user = data.id;
                 });
-            }
+            },
+            call_api_answer(url_api){
+				new APIRequest(url_api).call_api().then((data) => {
+                    this.answer_data.push(...data.results);
+                    this.next_page = data.next;
+				});
+            },
+            load_more() {
+				this.call_api_answer(this.next_page);
+        	}
         },
     }
 </script>

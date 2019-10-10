@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import APIRequest from '../common/api_request'
+import APIRequest from '@/common/api_request'
 export default {
 	name: 'Login',
 	data: function () {

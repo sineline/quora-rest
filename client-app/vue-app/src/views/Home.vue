@@ -14,8 +14,8 @@
 </template>
 
 <script>
-	import Question from '../components/Question';
-	import APIRequest from '../common/api_request'
+	import Question from '@/components/Question';
+	import APIRequest from '@/common/api_request'
 
 	export default {
 		name: 'Home',
@@ -26,11 +26,10 @@
 			return {
 				questions : [],
 				next_page: "",
-				count_question: 0,
-				more_question: true
+				title_page: "Question Time"
 			}
 		},
-		mounted() {
+		created() {
 			// If not token - we redirect to login
 			if(!localStorage.token){
 				this.$router.push({ name: 'login'});
@@ -39,14 +38,15 @@
 
 			if(!this.questions.length)
 				this.call_api("http://localhost:8000/api/questions/");
+
+			document.title = this.title_page;
 		}, 
 		props: {
 		},
 		methods: {
 			call_api(url_api){
 				new APIRequest(url_api).call_api().then((data) => {
-					this.questions = !this.questions.length ? data.results : this.questions.concat(data.results);
-					this.count_question = data.count;
+					this.questions.push(...data.results);
 					this.next_page = data.next;
 				});
 			},

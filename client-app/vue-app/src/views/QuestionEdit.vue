@@ -8,8 +8,8 @@
 </template>
 
 <script>
-	import QuestionLinkMixin from '../mixins/QuestionLink.vue';
-	import APIRequest from '../common/api_request'
+	import QuestionLinkMixin from '@/mixins/QuestionLink.vue';
+	import APIRequest from '@/common/api_request'
 
 	export default {
 		name: 'AskQuestion',
@@ -36,12 +36,12 @@
 					title: this.question_data.title,
 				}
 
-				const url_api = (typeof this.question_prop !== 'undefined')
+				const endpoint = (typeof this.question_prop !== 'undefined')
 					? "http://localhost:8000/api/questions/"+this.question_prop.id+"/" 
 					: "http://localhost:8000/api/questions/";
 				
 				const method = this.question_prop ? 'PUT' : 'POST';
-				new APIRequest(url_api, method, post_data).call_api().then((data) => {
+				new APIRequest(endpoint, method, post_data).call_api().then((data) => {
 					this.$router.push(this.createLinkQuestion(data));
 				});
 			},

@@ -72,7 +72,7 @@ class QuestionDetail(generics.RetrieveAPIView):
 
 @authentication_classes((TokenAuthentication, SessionAuthentication))
 class QuestionViewSet(viewsets.ModelViewSet):
-    queryset = Question.objects.all()
+    queryset = Question.objects.all().order_by('-id')
     #id_author = Question.objects.values('author')
     serializer_class = QuestionSerializer
 
@@ -98,6 +98,18 @@ class QuestionViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user, url_title=serializer.create_url())
+
+@authentication_classes((TokenAuthentication, SessionAuthentication))
+class AnswerList(generics.ListAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+
+    def get_queryset(self):
+        if 'url_title' in self.kwargs.keys():
+            url_title = self.kwargs['url_title']
+            self.lookup_field = 'url_title'
+            return Answer.objects.filter(question__url_title=url_title).order_by('-id')       
+        return self.queryset
 
 @authentication_classes((TokenAuthentication, SessionAuthentication))
 class AnswerViewSet(viewsets.ModelViewSet):
