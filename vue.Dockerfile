@@ -5,7 +5,8 @@ FROM node:12.2.0-alpine
 WORKDIR /app
 
 RUN npm install
-RUN npm install -g @vue/cli
+RUN npm install -g @vue/cli 
+RUN npm install -g serve 
 
 COPY ./client-app /app
 

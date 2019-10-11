@@ -44,6 +44,7 @@ services:
       - ./client-app:/app
     ports:
       - "8010:8080"
+      - "8011:5000"
     depends_on:
       - api-quora
     environment:

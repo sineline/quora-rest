@@ -60,7 +60,7 @@
 		justify-self: start;
 		align-self: center;
 		font-size: 29px;
-    	color: #3c3c3c;
+		color: #3c3c3c;
 	}
 	header .container-button{
 		justify-self: end;

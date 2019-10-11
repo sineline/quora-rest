@@ -56,7 +56,7 @@
 			},
 			load_more() {
 				this.call_api(this.next_page);
-        	}
+			}
 		},
 	}
 </script>

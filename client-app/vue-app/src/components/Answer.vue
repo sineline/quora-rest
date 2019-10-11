@@ -60,7 +60,7 @@
             delete_answer(){
                 const url_api = "http://localhost:8000/api/answers/"+this.answer_data.id+"/";
                 const apiRequest = new APIRequest(url_api, 'DELETE');
-                apiRequest.call_api().then((data) => {
+                apiRequest.call_api().then(() => {
                     if(apiRequest.get_response_status() != 401){
                         this.$emit('remove_answer', this.answer_data.id);
                     }

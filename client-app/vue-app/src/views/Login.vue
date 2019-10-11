@@ -1,8 +1,7 @@
 <template>
-  	<div class="hello">
+	<div class="hello">
 		<img alt="Vue logo" src="../assets/logo.png">
 		<h1>Share your knowledge!</h1>
-		
 		<form v-on:submit.prevent>
 			<label for="username-input">Username</label>
 			<input type="text" name="username" id="username-input" v-model="username" autocomplete="username">
@@ -12,8 +11,7 @@
 			<p><button v-on:click="callLoginApi()">Login</button></p>
 			<p>Or <router-link to='/register'>Create a new account</router-link></p>
 		</form>
-
-  	</div>
+	</div>
 </template>
 
 <script>
@@ -26,11 +24,11 @@ export default {
 			password_val: '',
 		}
 	},  
-  	props: {
+	props: {
 		msg: String,
-  	},
-  	mounted() {
-		
+	},
+	mounted() {
+			
 	},
 	methods: {
 		callLoginApi() {

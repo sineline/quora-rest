@@ -1,9 +1,9 @@
 <template>
     <main class="container-main">
-       <h1 v-if="!question_data.id">Ask a Question</h1>
-	   <h1 v-if="question_data.id">Edit the Question</h1>
-	   <textarea rows="3" placeholder="What do you want to ask?" v-model="question_data.title"></textarea>
-	   <button class="btn-publish btn btn-success" v-on:click="publish()">Publish</button>
+		<h1 v-if="!question_data.id">Ask a Question</h1>
+		<h1 v-else>Edit the Question</h1>
+		<textarea rows="3" placeholder="What do you want to ask?" v-model="question_data.title"></textarea>
+		<button class="btn-publish btn btn-success" v-on:click="publish()">Publish</button>
     </main>
 </template>
 

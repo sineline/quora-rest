@@ -1,5 +1,5 @@
 <template>
-  	<div class="hello">
+	<div class="hello">
 		<img alt="Vue logo" src="../assets/logo.png">
 		<h1>Create your question time account!</h1>
 		<h2 v-if="success">Bravo, you are going to be redirected!</h2>
@@ -20,8 +20,7 @@
 			<div v-if="error_api" v-html=error_api></div>
 			<p>Or <router-link to='/login'>Sign in instead</router-link></p>
 		</form>
-
-  	</div>
+	</div>
 </template>
 
 <script>
@@ -52,7 +51,7 @@
 					return;
 				}
 
-				const post_date = { 
+				const post_data = { 
 					username: this.username,
 					email: this.email,
 					password: this.password

@@ -1,13 +1,13 @@
 <template>
-    <main class="container-main">
-	   <h1>Edit your Answer</h1>
-	   <textarea rows="3" placeholder="What do you want to ask?" v-model="answer.answer"></textarea>
-	   <button class="btn-publish btn btn-success" v-on:click="publish()">Publish your answer</button>
-    </main>
+	<main class="container-main">
+		<h1>Edit your Answer</h1>
+		<textarea rows="3" placeholder="What do you want to ask?" v-model="answer.answer"></textarea>
+		<button class="btn-publish btn btn-success" v-on:click="publish()">Publish your answer</button>
+	</main>
 </template>
 
 <script>
-
+	import APIRequest from '@/common/api_request'
 	export default {
 		name: 'AnswerEdit',
 		data: function () {
@@ -29,17 +29,7 @@
 				}
 
 				const url_api = "http://localhost:8000/api/answers/"+this.answer.id+"/";
-				fetch(url_api, {
-					method: 'PUT',
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': 'Token '+localStorage.token
-					},
-					body: JSON.stringify(post_data)
-				})
-				.then(response => response.json())
-				.then((data) => {
-					console.debug(data);
+				new APIRequest(url_api, 'PUT', post_data).call_api().then(() => {
 					this.$router.go(-1);
 				});
 			},

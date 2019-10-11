@@ -146,6 +146,8 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8010',
     'http://localhost:8000',
+    'http://localhost:8011',
+    'http://localhost:5000'
 )
 CORS_ALLOW_METHODS = (
     'GET',

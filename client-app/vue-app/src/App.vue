@@ -7,7 +7,7 @@
 		color: #2c3e50;
 		margin-top: 60px;
 	}
-  	.fade-enter-active, .fade-leave-active {
+	.fade-enter-active, .fade-leave-active {
 		transition: opacity .2s;
 	}
 	.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
@@ -19,19 +19,18 @@
 </style>
 
 <template>
-  <div id="app">
-    <Header v-if="is_loggued" @setIsLoggued="setIsLoggued"/>
-	<transition name="fade">
-    	<router-view @setIsLoggued="setIsLoggued"/>
-	</transition>
-  </div>
+	<div id="app">
+		<Header v-if="is_loggued" @setIsLoggued="setIsLoggued"/>
+		<transition name="fade">
+			<router-view @setIsLoggued="setIsLoggued"/>
+		</transition>
+	</div>
 </template>
 
 <script>
 	import Header from './components/Header';
-	  
-  	export default {
-      	name: 'App',
+	export default {
+		name: 'App',
 		components: {
 			Header
 		},

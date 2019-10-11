@@ -76,9 +76,14 @@
             }
             else{
                 const url_api = "http://localhost:8000/api/questions-title/"+this.$route.params.question_title+"/";
-                new APIRequest(url_api).call_api().then((data) => {
-					this.question_data = data;
-                    this.keep_created();
+                const apiRequest = new APIRequest(url_api)
+                apiRequest.call_api().then((data) => {
+                    if(apiRequest.get_response_status() == 404)
+                        this.$router.push({ name: 'page-not-found'});
+                    else{
+                        this.question_data = data;
+                        this.keep_created();
+                    }
                 });
             }
         },
@@ -149,7 +154,7 @@
             },
             load_more() {
 				this.call_api_answer(this.next_page);
-        	}
+            }
         },
     }
 </script>
