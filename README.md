@@ -1,4 +1,3 @@
-# hello-world
- Blabalbalba
- blablal
- blabla
+# Simple Quora App
+ Frontend Vue.js
+ Backend Django Rest API
