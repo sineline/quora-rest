@@ -1,4 +1,4 @@
-# Simple Quora App (Frontend JS / Backend Python)
+# Simple Quora App (Docker / Frontend JS / Backend Python)
 ### Frontend Vue.js
 - User authentification with token
 - Router
